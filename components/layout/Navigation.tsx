@@ -15,6 +15,7 @@ export default function Navigation({ onItemClick }: NavigationProps) {
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
     { href: '/programs', label: 'Programs' },
+    { href: '/membership', label: 'Membership' },
     { href: '/news', label: 'News' },
     { href: '/newsletter', label: 'Newsletter' },
     { href: '/gallery', label: 'Gallery' },

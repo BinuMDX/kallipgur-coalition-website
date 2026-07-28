@@ -16,6 +16,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
     { href: '/programs', label: 'Programs' },
+    { href: '/membership', label: 'Membership' },
     { href: '/news', label: 'News & Updates' },
     { href: '/newsletter', label: 'Newsletter' },
     { href: '/gallery', label: 'Gallery' },
