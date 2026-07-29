@@ -78,10 +78,7 @@ export async function POST(request: NextRequest) {
         emergencyContactRelationship: data.emergencyContactRelationship ?? null,
         emergencyContactPhone: data.emergencyContactPhone ?? null,
 
-        // Documents
-        identityDocumentUrl: data.identityDocumentUrl ?? null,
-        supportingDocumentUrl: data.supportingDocumentUrl ?? null,
-        profilePhotoUrl: data.profilePhotoUrl ?? null,
+
 
         // Declarations (cast from z.literal(true) to boolean for Prisma)
         informationDeclarationAccepted: Boolean(data.informationDeclarationAccepted),

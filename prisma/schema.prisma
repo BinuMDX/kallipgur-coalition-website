@@ -68,9 +68,6 @@ model MembershipApplication {
   emergencyContactPhone        String?
 
   // ── Documents ─────────────────────────────
-  identityDocumentUrl  String?
-  supportingDocumentUrl String?
-  profilePhotoUrl      String?
   documents            MembershipDocument[]
 
   // ── Declaration ───────────────────────────

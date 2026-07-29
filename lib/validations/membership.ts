@@ -163,25 +163,6 @@ export const membershipApplicationSchema = z.object({
     .nullable()
     .optional(),
 
-  // ── Documents ─────────────────────────────
-  identityDocumentUrl: z
-    .string()
-    .url('Please provide a valid URL')
-    .nullable()
-    .optional(),
-
-  supportingDocumentUrl: z
-    .string()
-    .url('Please provide a valid URL')
-    .nullable()
-    .optional(),
-
-  profilePhotoUrl: z
-    .string()
-    .url('Please provide a valid URL')
-    .nullable()
-    .optional(),
-
   // ── Declarations ──────────────────────────
   informationDeclarationAccepted: z.literal(true, {
     error: 'You must declare the information is true and correct',
