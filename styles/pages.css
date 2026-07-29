@@ -1918,6 +1918,60 @@
   margin: 0 auto;
 }
 
+.form-success-ref {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--clr-text-muted);
+  margin-top: 1rem;
+}
+
+.form-success-ref strong {
+  color: var(--clr-gold);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ===== FORM ERROR BANNER ===== */
+.form-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.form-banner p {
+  margin: 0;
+  flex: 1;
+}
+
+.form-banner--error {
+  background: rgba(220, 60, 60, 0.08);
+  border: 1px solid rgba(220, 60, 60, 0.25);
+  color: #e8a0a0;
+}
+
+.form-banner-dismiss {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.form-banner-dismiss:hover {
+  opacity: 1;
+}
+
 /* ===== FAQ ACCORDION ===== */
 .faq-accordion {
   display: flex;

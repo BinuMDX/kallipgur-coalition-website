@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import type { FieldPath } from 'react-hook-form';
 import ProgressIndicator from '../ui/ProgressIndicator';
 import FormButtons from '../ui/FormButtons';
 import PersonalInformationSection from './PersonalInformationSection';
@@ -46,6 +47,35 @@ export interface MembershipFormData {
   membershipTermsAccepted: boolean;
 }
 
+/** All field names in MembershipFormData — used for safe setError mapping */
+const VALID_FIELD_NAMES: ReadonlySet<string> = new Set<FieldPath<MembershipFormData>>([
+  'firstName',
+  'lastName',
+  'dateOfBirth',
+  'gender',
+  'email',
+  'phone',
+  'preferredContactMethod',
+  'streetAddress',
+  'suburb',
+  'state',
+  'postcode',
+  'country',
+  'membershipType',
+  'occupation',
+  'traditionalCountry',
+  'aboriginalOrTorresStraitIslander',
+  'reasonForJoining',
+  'skillsAndExperience',
+  'areasOfInterest',
+  'emergencyContactName',
+  'emergencyContactRelationship',
+  'emergencyContactPhone',
+  'informationDeclarationAccepted',
+  'privacyPolicyAccepted',
+  'membershipTermsAccepted',
+]);
+
 const sectionSteps = [
   'Personal',
   'Address',
@@ -56,14 +86,21 @@ const sectionSteps = [
   'Declaration',
 ];
 
+interface SubmissionResult {
+  applicationId: string;
+}
+
 export default function MembershipForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
+  const [generalError, setGeneralError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const formTopRef = useRef<HTMLDivElement>(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<MembershipFormData>({
     defaultValues: {
@@ -125,22 +162,97 @@ export default function MembershipForm() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const onSubmit = () => {
-    // Frontend only — no API call
-    setSubmitted(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const onSubmit = async (formData: MembershipFormData) => {
+    // Clear any previous general error
+    setGeneralError(null);
+
+    try {
+      const response = await fetch('/api/membership', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.status === 201 && result.success) {
+        // ── Success ──
+        setSubmissionResult({ applicationId: result.applicationId });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      if (response.status === 400 && result.errors) {
+        // ── Validation errors — map back to form fields ──
+        const serverErrors = result.errors as Record<string, string>;
+        let mappedCount = 0;
+
+        for (const [field, message] of Object.entries(serverErrors)) {
+          if (VALID_FIELD_NAMES.has(field)) {
+            setError(field as FieldPath<MembershipFormData>, {
+              type: 'server',
+              message,
+            });
+            mappedCount++;
+          }
+        }
+
+        if (mappedCount > 0) {
+          // Scroll to the first field with an error
+          const firstErrorField = Object.keys(serverErrors).find((f) =>
+            VALID_FIELD_NAMES.has(f),
+          );
+          if (firstErrorField) {
+            const el = document.querySelector(`[name="${firstErrorField}"]`);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              if (el instanceof HTMLElement) el.focus();
+            }
+          }
+        } else {
+          // Server returned 400 but no mappable field errors
+          setGeneralError(
+            result.message || 'Please check the submitted information and try again.',
+          );
+          formTopRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
+      }
+
+      // ── Other server errors (500, etc.) ──
+      setGeneralError(
+        'Unable to submit your application at this time. Please try again.',
+      );
+      formTopRef.current?.scrollIntoView({ behavior: 'smooth' });
+    } catch {
+      // ── Network failure or unexpected error ──
+      setGeneralError(
+        "We couldn't submit your application right now. Please check your connection and try again.",
+      );
+      formTopRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleClear = () => {
     reset();
-    setSubmitted(false);
+    setSubmissionResult(null);
+    setGeneralError(null);
     setCurrentStep(0);
   };
 
-  if (submitted) {
+  const handleReturnToForm = () => {
+    reset();
+    setSubmissionResult(null);
+    setGeneralError(null);
+    setCurrentStep(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // ── Success State ──
+  if (submissionResult) {
     return (
       <div className="membership-form-wrap" data-animate="fade-up">
-        <div className="form-success">
+        <div className="form-success" role="status" aria-live="polite">
           <div className="form-success-icon" aria-hidden="true">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
               <circle cx="32" cy="32" r="30" stroke="#C9962E" strokeWidth="2" fill="rgba(201, 150, 46, 0.08)" />
@@ -149,14 +261,17 @@ export default function MembershipForm() {
           </div>
           <h3 className="form-success-title">Application Submitted</h3>
           <p className="form-success-desc">
-            Thank you for your interest in becoming a member of Kallipgur Coalition Aboriginal Corporation. 
-            Your application has been received and will be reviewed by our Membership Committee. 
+            Thank you for your interest in becoming a member of Kallipgur Coalition Aboriginal Corporation.
+            Your application has been received and will be reviewed by our Membership Committee.
             We will be in touch within 10 business days.
+          </p>
+          <p className="form-success-ref">
+            Your application reference is: <strong>{submissionResult.applicationId}</strong>
           </p>
           <button
             type="button"
             className="btn btn-outline"
-            onClick={handleClear}
+            onClick={handleReturnToForm}
             style={{ marginTop: '1.5rem' }}
           >
             Submit Another Application
@@ -166,9 +281,25 @@ export default function MembershipForm() {
     );
   }
 
+  // ── Form State ──
   return (
-    <div className="membership-form-wrap" data-animate="fade-up">
+    <div className="membership-form-wrap" data-animate="fade-up" ref={formTopRef}>
       <ProgressIndicator steps={sectionSteps} currentStep={currentStep} />
+
+      {/* General error banner */}
+      {generalError && (
+        <div className="form-banner form-banner--error" role="alert" aria-live="assertive">
+          <p>{generalError}</p>
+          <button
+            type="button"
+            className="form-banner-dismiss"
+            onClick={() => setGeneralError(null)}
+            aria-label="Dismiss error message"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <PersonalInformationSection register={register} errors={errors} />

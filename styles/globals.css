@@ -1443,6 +1443,32 @@ input, textarea, select, button {
   padding-right: 2.5rem;
 }
 
+.form-group .input-date-field {
+  padding-right: 2.5rem;
+  position: relative;
+}
+
+/* Make default Webkit calendar picker indicator overlay transparent but clickable */
+.form-group .input-date-field::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2.5rem;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 2;
+}
+
+/* Ensure the calendar overlay behaves correctly on touch devices and focuses input properly */
+.form-group .input-date-field::-webkit-inner-spin-button,
+.form-group .input-date-field::-webkit-clear-button {
+  margin-right: 0.5rem;
+}
+
+
 .form-group select option {
   background: var(--clr-bg-primary);
   color: var(--clr-sand);
