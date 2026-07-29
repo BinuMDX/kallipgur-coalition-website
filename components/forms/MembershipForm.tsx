@@ -86,8 +86,11 @@ const sectionSteps = [
   'Declaration',
 ];
 
+type UploadState = 'idle' | 'uploading' | 'success' | 'error';
+
 interface SubmissionResult {
   applicationId: string;
+  partialSuccess?: boolean;
 }
 
 export default function MembershipForm() {
@@ -96,7 +99,15 @@ export default function MembershipForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const formTopRef = useRef<HTMLDivElement>(null);
 
+  // Document upload states
+  const [selectedFiles, setSelectedFiles] = useState<Record<string, File[]>>({});
+  const [uploadStates, setUploadStates] = useState<Record<string, UploadState>>({});
+  const [uploadProgresses, setUploadProgresses] = useState<Record<string, number>>({});
+  const [uploadErrors, setUploadErrors] = useState<Record<string, string>>({});
+  const [isUploadingDocuments, setIsUploadingDocuments] = useState(false);
+
   const {
+
     register,
     handleSubmit,
     reset,
@@ -162,9 +173,76 @@ export default function MembershipForm() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleFilesChange = (documentType: string, files: File[]) => {
+    setSelectedFiles((prev) => ({ ...prev, [documentType]: files }));
+    setUploadStates((prev) => ({ ...prev, [documentType]: 'idle' }));
+    setUploadErrors((prev) => ({ ...prev, [documentType]: '' }));
+    setUploadProgresses((prev) => ({ ...prev, [documentType]: 0 }));
+  };
+
+  const uploadDocuments = async (appId: string) => {
+    setIsUploadingDocuments(true);
+    let allSuccess = true;
+
+    for (const [docType, files] of Object.entries(selectedFiles)) {
+      if (!files || files.length === 0) continue;
+
+      setUploadStates((prev) => ({ ...prev, [docType]: 'uploading' }));
+      setUploadProgresses((prev) => ({ ...prev, [docType]: 10 })); // simulate initial progress
+
+      try {
+        const formData = new FormData();
+        formData.append('applicationId', appId);
+        formData.append('documentType', docType);
+        files.forEach((file) => formData.append('file', file));
+
+        const res = await fetch('/api/membership/documents', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = await res.json();
+
+        if (res.ok && result.success) {
+          setUploadStates((prev) => ({ ...prev, [docType]: 'success' }));
+          setUploadProgresses((prev) => ({ ...prev, [docType]: 100 }));
+        } else {
+          allSuccess = false;
+          setUploadStates((prev) => ({ ...prev, [docType]: 'error' }));
+          setUploadErrors((prev) => ({
+            ...prev,
+            [docType]: result.message || 'Upload failed',
+          }));
+        }
+      } catch (err) {
+        allSuccess = false;
+        setUploadStates((prev) => ({ ...prev, [docType]: 'error' }));
+        setUploadErrors((prev) => ({
+          ...prev,
+          [docType]: 'Network error during upload',
+        }));
+      }
+    }
+
+    setIsUploadingDocuments(false);
+    return allSuccess;
+  };
+
   const onSubmit = async (formData: MembershipFormData) => {
     // Clear any previous general error
     setGeneralError(null);
+
+    // If we already have an application ID (retry scenario), just retry uploads
+    if (submissionResult?.applicationId) {
+      const docsSuccess = await uploadDocuments(submissionResult.applicationId);
+      if (docsSuccess) {
+        setSubmissionResult({ applicationId: submissionResult.applicationId, partialSuccess: false });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setGeneralError('Some documents failed to upload. Please review the errors below.');
+      }
+      return;
+    }
 
     try {
       const response = await fetch('/api/membership', {
@@ -176,9 +254,18 @@ export default function MembershipForm() {
       const result = await response.json();
 
       if (response.status === 201 && result.success) {
-        // ── Success ──
-        setSubmissionResult({ applicationId: result.applicationId });
+        // ── Success Phase 1: App Created ──
+        const appId = result.applicationId;
+        
+        // ── Success Phase 2: Upload Docs ──
+        const docsSuccess = await uploadDocuments(appId);
+        
+        setSubmissionResult({ applicationId: appId, partialSuccess: !docsSuccess });
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        if (!docsSuccess) {
+           setGeneralError('Your application was created, but some documents failed to upload. Please review below and try again.');
+        }
         return;
       }
 
@@ -238,18 +325,19 @@ export default function MembershipForm() {
     setSubmissionResult(null);
     setGeneralError(null);
     setCurrentStep(0);
+    setSelectedFiles({});
+    setUploadStates({});
+    setUploadErrors({});
+    setUploadProgresses({});
   };
 
   const handleReturnToForm = () => {
-    reset();
-    setSubmissionResult(null);
-    setGeneralError(null);
-    setCurrentStep(0);
+    handleClear();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // ── Success State ──
-  if (submissionResult) {
+  if (submissionResult && !submissionResult.partialSuccess) {
     return (
       <div className="membership-form-wrap" data-animate="fade-up">
         <div className="form-success" role="status" aria-live="polite">
@@ -281,6 +369,7 @@ export default function MembershipForm() {
     );
   }
 
+
   // ── Form State ──
   return (
     <div className="membership-form-wrap" data-animate="fade-up" ref={formTopRef}>
@@ -307,9 +396,14 @@ export default function MembershipForm() {
         <MembershipDetailsSection register={register} errors={errors} />
         <AboutSection register={register} errors={errors} />
         <EmergencyContactSection register={register} errors={errors} />
-        <DocumentsSection />
+        <DocumentsSection
+          onFilesChange={handleFilesChange}
+          uploadStates={uploadStates}
+          uploadProgresses={uploadProgresses}
+          uploadErrors={uploadErrors}
+        />
         <DeclarationSection register={register} errors={errors} />
-        <FormButtons onClear={handleClear} isSubmitting={isSubmitting} />
+        <FormButtons onClear={handleClear} isSubmitting={isSubmitting || isUploadingDocuments} />
       </form>
     </div>
   );
