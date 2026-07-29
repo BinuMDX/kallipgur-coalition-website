@@ -4,6 +4,7 @@ import type { MembershipFormData } from './MembershipForm';
 import FormInput from '../ui/FormInput';
 import FormSelect from '../ui/FormSelect';
 import SectionCard from '../ui/SectionCard';
+import { MEMBERSHIP_STATES, MEMBERSHIP_COUNTRIES } from '@/lib/constants/membership';
 
 interface AddressSectionProps {
   register: UseFormRegister<MembershipFormData>;
@@ -33,14 +34,14 @@ export default function AddressSection({
       />
       <div className="form-row form-row--2">
         <FormInput
-          name="city"
+          name="suburb"
           label="City / Suburb"
           required
           placeholder="Enter your city or suburb"
-          register={register('city', {
+          register={register('suburb', {
             required: 'City or suburb is required',
           })}
-          error={errors.city}
+          error={errors.suburb}
         />
         <FormSelect
           name="state"
@@ -49,16 +50,7 @@ export default function AddressSection({
           register={register('state', {
             required: 'State is required',
           })}
-          options={[
-            { value: 'WA', label: 'Western Australia' },
-            { value: 'NSW', label: 'New South Wales' },
-            { value: 'VIC', label: 'Victoria' },
-            { value: 'QLD', label: 'Queensland' },
-            { value: 'SA', label: 'South Australia' },
-            { value: 'TAS', label: 'Tasmania' },
-            { value: 'ACT', label: 'Australian Capital Territory' },
-            { value: 'NT', label: 'Northern Territory' },
-          ]}
+          options={MEMBERSHIP_STATES}
           error={errors.state}
         />
       </div>
@@ -84,11 +76,7 @@ export default function AddressSection({
           register={register('country', {
             required: 'Country is required',
           })}
-          options={[
-            { value: 'AU', label: 'Australia' },
-            { value: 'NZ', label: 'New Zealand' },
-            { value: 'other', label: 'Other' },
-          ]}
+          options={MEMBERSHIP_COUNTRIES}
           error={errors.country}
         />
       </div>

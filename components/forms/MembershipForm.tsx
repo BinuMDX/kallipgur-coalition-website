@@ -20,10 +20,10 @@ export interface MembershipFormData {
   gender: string;
   email: string;
   phone: string;
-  preferredContact: string;
+  preferredContactMethod: string;
   // Address
   streetAddress: string;
-  city: string;
+  suburb: string;
   state: string;
   postcode: string;
   country: string;
@@ -31,19 +31,19 @@ export interface MembershipFormData {
   membershipType: string;
   occupation: string;
   traditionalCountry: string;
-  isIndigenous: string;
+  aboriginalOrTorresStraitIslander: string;
   // About
-  whyJoin: string;
-  skillsExperience: string;
+  reasonForJoining: string;
+  skillsAndExperience: string;
   areasOfInterest: string[];
   // Emergency Contact
-  emergencyName: string;
-  emergencyRelationship: string;
-  emergencyPhone: string;
+  emergencyContactName: string;
+  emergencyContactRelationship: string;
+  emergencyContactPhone: string;
   // Declaration
-  declareTruth: boolean;
-  agreePrivacy: boolean;
-  agreeTerms: boolean;
+  informationDeclarationAccepted: boolean;
+  privacyPolicyAccepted: boolean;
+  membershipTermsAccepted: boolean;
 }
 
 const sectionSteps = [
@@ -73,25 +73,25 @@ export default function MembershipForm() {
       gender: '',
       email: '',
       phone: '',
-      preferredContact: '',
+      preferredContactMethod: '',
       streetAddress: '',
-      city: '',
+      suburb: '',
       state: '',
       postcode: '',
       country: '',
       membershipType: '',
       occupation: '',
       traditionalCountry: '',
-      isIndigenous: '',
-      whyJoin: '',
-      skillsExperience: '',
+      aboriginalOrTorresStraitIslander: '',
+      reasonForJoining: '',
+      skillsAndExperience: '',
       areasOfInterest: [],
-      emergencyName: '',
-      emergencyRelationship: '',
-      emergencyPhone: '',
-      declareTruth: false,
-      agreePrivacy: false,
-      agreeTerms: false,
+      emergencyContactName: '',
+      emergencyContactRelationship: '',
+      emergencyContactPhone: '',
+      informationDeclarationAccepted: false,
+      privacyPolicyAccepted: false,
+      membershipTermsAccepted: false,
     },
   });
 

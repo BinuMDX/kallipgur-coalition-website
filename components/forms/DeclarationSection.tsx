@@ -23,7 +23,7 @@ export default function DeclarationSection({
         <label className="form-checkbox form-checkbox--declaration">
           <input
             type="checkbox"
-            {...register('declareTruth', {
+            {...register('informationDeclarationAccepted', {
               required: 'You must declare the information is true and correct',
             })}
           />
@@ -32,16 +32,16 @@ export default function DeclarationSection({
             I declare that the information provided is true and correct.
           </span>
         </label>
-        {errors.declareTruth && (
+        {errors.informationDeclarationAccepted && (
           <span className="form-error" role="alert">
-            {errors.declareTruth.message}
+            {errors.informationDeclarationAccepted.message}
           </span>
         )}
 
         <label className="form-checkbox form-checkbox--declaration">
           <input
             type="checkbox"
-            {...register('agreePrivacy', {
+            {...register('privacyPolicyAccepted', {
               required: 'You must agree to the Privacy Policy',
             })}
           />
@@ -50,16 +50,16 @@ export default function DeclarationSection({
             I agree to the <a href="#" className="form-inline-link">Privacy Policy</a>.
           </span>
         </label>
-        {errors.agreePrivacy && (
+        {errors.privacyPolicyAccepted && (
           <span className="form-error" role="alert">
-            {errors.agreePrivacy.message}
+            {errors.privacyPolicyAccepted.message}
           </span>
         )}
 
         <label className="form-checkbox form-checkbox--declaration">
           <input
             type="checkbox"
-            {...register('agreeTerms', {
+            {...register('membershipTermsAccepted', {
               required: 'You must agree to the Membership Terms',
             })}
           />
@@ -68,9 +68,9 @@ export default function DeclarationSection({
             I agree to the <a href="#" className="form-inline-link">Membership Terms</a>.
           </span>
         </label>
-        {errors.agreeTerms && (
+        {errors.membershipTermsAccepted && (
           <span className="form-error" role="alert">
-            {errors.agreeTerms.message}
+            {errors.membershipTermsAccepted.message}
           </span>
         )}
       </div>

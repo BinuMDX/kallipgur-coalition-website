@@ -21,27 +21,27 @@ export default function EmergencyContactSection({
       id="section-emergency"
     >
       <FormInput
-        name="emergencyName"
+        name="emergencyContactName"
         label="Full Name"
         placeholder="Emergency contact full name"
-        register={register('emergencyName')}
-        error={errors.emergencyName}
+        register={register('emergencyContactName')}
+        error={errors.emergencyContactName}
       />
       <div className="form-row form-row--2">
         <FormInput
-          name="emergencyRelationship"
+          name="emergencyContactRelationship"
           label="Relationship"
           placeholder="e.g. Parent, Sibling, Partner"
-          register={register('emergencyRelationship')}
-          error={errors.emergencyRelationship}
+          register={register('emergencyContactRelationship')}
+          error={errors.emergencyContactRelationship}
         />
         <FormInput
-          name="emergencyPhone"
+          name="emergencyContactPhone"
           label="Phone Number"
           type="tel"
           placeholder="04XX XXX XXX"
-          register={register('emergencyPhone')}
-          error={errors.emergencyPhone}
+          register={register('emergencyContactPhone')}
+          error={errors.emergencyContactPhone}
         />
       </div>
     </SectionCard>

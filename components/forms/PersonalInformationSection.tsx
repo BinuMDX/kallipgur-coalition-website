@@ -4,6 +4,7 @@ import type { MembershipFormData } from './MembershipForm';
 import FormInput from '../ui/FormInput';
 import FormSelect from '../ui/FormSelect';
 import SectionCard from '../ui/SectionCard';
+import { MEMBERSHIP_GENDERS, MEMBERSHIP_CONTACT_METHODS } from '@/lib/constants/membership';
 
 interface PersonalInformationSectionProps {
   register: UseFormRegister<MembershipFormData>;
@@ -61,12 +62,7 @@ export default function PersonalInformationSection({
           register={register('gender', {
             required: 'Please select your gender',
           })}
-          options={[
-            { value: 'male', label: 'Male' },
-            { value: 'female', label: 'Female' },
-            { value: 'non-binary', label: 'Non-binary' },
-            { value: 'prefer-not-to-say', label: 'Prefer not to say' },
-          ]}
+          options={MEMBERSHIP_GENDERS}
           error={errors.gender}
         />
       </div>
@@ -99,14 +95,10 @@ export default function PersonalInformationSection({
         />
       </div>
       <FormSelect
-        name="preferredContact"
+        name="preferredContactMethod"
         label="Preferred Contact Method"
-        register={register('preferredContact')}
-        options={[
-          { value: 'email', label: 'Email' },
-          { value: 'phone', label: 'Phone' },
-          { value: 'either', label: 'No preference' },
-        ]}
+        register={register('preferredContactMethod')}
+        options={MEMBERSHIP_CONTACT_METHODS}
         placeholder="Select preferred contact method"
       />
     </SectionCard>

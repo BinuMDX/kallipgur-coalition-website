@@ -4,6 +4,7 @@ import type { MembershipFormData } from './MembershipForm';
 import FormInput from '../ui/FormInput';
 import FormSelect from '../ui/FormSelect';
 import SectionCard from '../ui/SectionCard';
+import { MEMBERSHIP_TYPES, MEMBERSHIP_INDIGENOUS_OPTIONS } from '@/lib/constants/membership';
 
 interface MembershipDetailsSectionProps {
   register: UseFormRegister<MembershipFormData>;
@@ -28,14 +29,7 @@ export default function MembershipDetailsSection({
         register={register('membershipType', {
           required: 'Please select a membership type',
         })}
-        options={[
-          { value: 'general', label: 'General Member' },
-          { value: 'community', label: 'Community Member' },
-          { value: 'youth', label: 'Youth Member' },
-          { value: 'elder', label: 'Elder' },
-          { value: 'volunteer', label: 'Volunteer' },
-          { value: 'supporter', label: 'Supporter' },
-        ]}
+        options={MEMBERSHIP_TYPES}
         placeholder="Select membership type"
         error={errors.membershipType}
       />
@@ -52,18 +46,15 @@ export default function MembershipDetailsSection({
         register={register('traditionalCountry')}
       />
       <FormSelect
-        name="isIndigenous"
+        name="aboriginalOrTorresStraitIslander"
         label="Aboriginal and/or Torres Strait Islander"
         required
-        register={register('isIndigenous', {
+        register={register('aboriginalOrTorresStraitIslander', {
           required: 'This field is required',
         })}
-        options={[
-          { value: 'yes', label: 'Yes' },
-          { value: 'no', label: 'No' },
-        ]}
+        options={MEMBERSHIP_INDIGENOUS_OPTIONS}
         placeholder="Select an option"
-        error={errors.isIndigenous}
+        error={errors.aboriginalOrTorresStraitIslander}
       />
     </SectionCard>
   );

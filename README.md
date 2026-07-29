@@ -72,3 +72,42 @@ Once your PostgreSQL database is running, manage schema changes and client gener
 - **`prisma/schema.prisma`**: The single source of truth for the database schema models.
 - **`prisma.config.ts`**: Prisma 7 configuration file mapping the connection credentials.
 - **`lib/prisma.ts`**: A singleton Prisma Client wrapper to avoid connection exhaustion in Next.js hot reloads.
+
+---
+
+### 6. Testing the Backend API locally
+You can verify the backend `POST /api/membership` route using `curl` while the dev server (`npm run dev`) is running:
+
+```bash
+curl -X POST http://localhost:3000/api/membership \
+  -H "Content-Type: application/json" \
+  -d '{
+  "firstName": "Test",
+  "lastName": "Applicant",
+  "dateOfBirth": "1990-05-15",
+  "gender": "MALE",
+  "email": "test@example.com",
+  "phone": "0412345678",
+  "preferredContactMethod": "EMAIL",
+  "streetAddress": "123 Test Street",
+  "suburb": "Perth",
+  "state": "WA",
+  "postcode": "6000",
+  "country": "AUSTRALIA",
+  "membershipType": "GENERAL_MEMBER",
+  "traditionalCountry": "Noongar Country",
+  "aboriginalOrTorresStraitIslander": "YES",
+  "occupation": "Teacher",
+  "reasonForJoining": "To support the community",
+  "skillsAndExperience": "Education and mentoring",
+  "areasOfInterest": ["Community Programs", "Education"],
+  "emergencyContactName": "Jane Doe",
+  "emergencyContactRelationship": "Partner",
+  "emergencyContactPhone": "0498765432",
+  "informationDeclarationAccepted": true,
+  "privacyPolicyAccepted": true,
+  "membershipTermsAccepted": true
+}'
+```
+
+If successful, you will receive a 201 response with the `applicationId`. If validation fails, you will receive a 400 response describing the errors.
