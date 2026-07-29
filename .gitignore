@@ -4,4 +4,5 @@ node_modules/
 out/
 .env
 .env.local
+.env.production
 dist/

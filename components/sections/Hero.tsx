@@ -107,8 +107,8 @@ export default function Hero() {
         aria-label="Key statistics"
       >
         <div className="stat-item">
-          <span class="stat-number">30+</span>
-          <span class="stat-label">Years of Community Service</span>
+          <span className="stat-number">30+</span>
+          <span className="stat-label">Years of Community Service</span>
         </div>
         <div className="stat-divider" aria-hidden="true"></div>
         <div className="stat-item">
