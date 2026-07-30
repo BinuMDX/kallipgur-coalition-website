@@ -76,7 +76,9 @@ model MembershipApplication {
   membershipTermsAccepted        Boolean
 
   // ── Application Management ────────────────
-  status ApplicationStatus @default(PENDING)
+  status             ApplicationStatus @default(PENDING)
+  applicantEmailSent Boolean           @default(false)
+  adminEmailSent     Boolean           @default(false)
 
   // ── Indexes ───────────────────────────────
   @@index([email])

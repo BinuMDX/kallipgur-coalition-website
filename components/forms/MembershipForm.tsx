@@ -228,6 +228,18 @@ export default function MembershipForm() {
     return allSuccess;
   };
 
+  const triggerNotifications = async (appId: string) => {
+    try {
+      await fetch('/api/membership/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ applicationId: appId }),
+      });
+    } catch (err) {
+      console.error('Error triggering membership notifications:', err);
+    }
+  };
+
   const onSubmit = async (formData: MembershipFormData) => {
     // Clear any previous general error
     setGeneralError(null);
@@ -236,6 +248,7 @@ export default function MembershipForm() {
     if (submissionResult?.applicationId) {
       const docsSuccess = await uploadDocuments(submissionResult.applicationId);
       if (docsSuccess) {
+        await triggerNotifications(submissionResult.applicationId);
         setSubmissionResult({ applicationId: submissionResult.applicationId, partialSuccess: false });
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
@@ -260,6 +273,9 @@ export default function MembershipForm() {
         // ── Success Phase 2: Upload Docs ──
         const docsSuccess = await uploadDocuments(appId);
         
+        // ── Success Phase 3: Trigger notifications ──
+        await triggerNotifications(appId);
+
         setSubmissionResult({ applicationId: appId, partialSuccess: !docsSuccess });
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
