@@ -97,9 +97,10 @@ async function runTests() {
     const info = await transporter.sendMail(options);
     const mimeBuffer = await new Promise<Buffer>((resolve, reject) => {
       const chunks: Buffer[] = [];
-      info.message.on('data', (chunk) => chunks.push(chunk));
-      info.message.on('end', () => resolve(Buffer.concat(chunks)));
-      info.message.on('error', reject);
+      const messageStream = info.message as any;
+      messageStream.on('data', (chunk: Buffer) => chunks.push(chunk));
+      messageStream.on('end', () => resolve(Buffer.concat(chunks)));
+      messageStream.on('error', reject);
     });
 
     const mimeString = mimeBuffer.toString();

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth/auth';
 import prisma from '@/lib/prisma';
 import { statusUpdateSchema, validateStatusTransition } from '@/lib/validations/status';
 
@@ -17,16 +18,14 @@ export async function PATCH(
   try {
     const { applicationId } = params;
 
-    // ── 1. Temporary Admin Dev Guard ─────────────────
-    const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
-    const devKey = request.headers.get('x-admin-dev-key');
+    // ── 1. NextAuth Authorization ─────────────────
+    const session = await auth();
     
-    // In production, we require the admin dev key as a placeholder for proper auth.
-    if (!isDev && (!process.env.ADMIN_DEV_KEY || devKey !== process.env.ADMIN_DEV_KEY)) {
+    if (!session || !session.user) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Unauthorized. Admin authentication and authorization will be implemented before this endpoint is exposed in production.',
+          message: 'Unauthorized. Admin authentication required.',
         },
         { status: 401 }
       );

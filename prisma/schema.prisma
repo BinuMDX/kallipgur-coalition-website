@@ -13,6 +13,11 @@ datasource db {
 // Enums
 // ──────────────────────────────────────────────
 
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
 enum ApplicationStatus {
   PENDING
   UNDER_REVIEW
@@ -29,6 +34,22 @@ enum DocumentType {
 // ──────────────────────────────────────────────
 // Models
 // ──────────────────────────────────────────────
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  fullName     String
+  email        String    @unique
+  passwordHash String
+  role         AdminRole @default(ADMIN)
+  isActive     Boolean   @default(true)
+  lastLogin    DateTime?
+  
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([email])
+}
+
 
 model MembershipApplication {
   id        String   @id @default(cuid())
