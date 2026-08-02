@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Container from '../../components/ui/Container';
-import SectionHeading from '../../components/ui/SectionHeading';
-import Button from '../../components/ui/Button';
-import MembershipForm from '../../components/forms/MembershipForm';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Button from '@/components/ui/Button';
+import MembershipForm from '@/components/forms/MembershipForm';
 import MembershipFAQ from './MembershipFAQ';
 
 export const metadata: Metadata = {

@@ -3,9 +3,6 @@ import type { Metadata } from 'next';
 import { Fraunces, Hanken_Grotesk } from 'next/font/google';
 import '../styles/globals.css';
 import '../styles/pages.css';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
-import ScrollAnimate from './ScrollAnimate';
 
 // Initialize fonts using next/font/google
 const fraunces = Fraunces({
@@ -44,12 +41,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${hankenGrotesk.variable}`}>
-      <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ScrollAnimate />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
+

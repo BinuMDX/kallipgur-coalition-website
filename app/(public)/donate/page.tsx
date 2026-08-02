@@ -2,10 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Container from '../../components/ui/Container';
-import SectionHeading from '../../components/ui/SectionHeading';
-import Quote from '../../components/ui/Quote';
-import DonationCTA from '../../components/sections/DonationCTA';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Quote from '@/components/ui/Quote';
+import DonationCTA from '@/components/sections/DonationCTA';
 
 
 export default function DonatePage() {

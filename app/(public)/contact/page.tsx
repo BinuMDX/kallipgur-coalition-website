@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Container from '../../components/ui/Container';
-import SectionHeading from '../../components/ui/SectionHeading';
-import ContactCTA from '../../components/sections/ContactCTA';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import ContactCTA from '@/components/sections/ContactCTA';
 
 export const metadata: Metadata = {
   title: 'Contact Us | Kallipgur Coalition Aboriginal Corporation',

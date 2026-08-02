@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Container from '../../components/ui/Container';
-import SectionHeading from '../../components/ui/SectionHeading';
-import Button from '../../components/ui/Button';
-import Gallery from '../../components/sections/Gallery';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Button from '@/components/ui/Button';
+import Gallery from '@/components/sections/Gallery';
 
 export const metadata: Metadata = {
   title: 'Gallery | Kallipgur Coalition Aboriginal Corporation',

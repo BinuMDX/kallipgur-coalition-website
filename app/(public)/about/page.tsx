@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import Container from '../../components/ui/Container';
-import SectionHeading from '../../components/ui/SectionHeading';
-import Card from '../../components/ui/Card';
-import Quote from '../../components/ui/Quote';
-import Button from '../../components/ui/Button';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Card from '@/components/ui/Card';
+import Quote from '@/components/ui/Quote';
+import Button from '@/components/ui/Button';
 
 export default function AboutPage() {
   return (

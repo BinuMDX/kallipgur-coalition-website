@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import Hero from '../components/sections/Hero';
-import About from '../components/sections/About';
-import Programs from '../components/sections/Programs';
-import Quote from '../components/ui/Quote';
-import Container from '../components/ui/Container';
-import SectionHeading from '../components/ui/SectionHeading';
-import Card from '../components/ui/Card';
+import Hero from '@/components/sections/Hero';
+import About from '@/components/sections/About';
+import Programs from '@/components/sections/Programs';
+import Quote from '@/components/ui/Quote';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Card from '@/components/ui/Card';
 
 export default function HomePage() {
   // Contact form state

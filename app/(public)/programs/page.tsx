@@ -1,11 +1,11 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Container from '../../components/ui/Container';
-import SectionHeading from '../../components/ui/SectionHeading';
-import Button from '../../components/ui/Button';
-import Programs from '../../components/sections/Programs';
-import Quote from '../../components/ui/Quote';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import Button from '@/components/ui/Button';
+import Programs from '@/components/sections/Programs';
+import Quote from '@/components/ui/Quote';
 
 export const metadata: Metadata = {
   title: 'Programs | Kallipgur Coalition Aboriginal Corporation',
