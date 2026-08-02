@@ -85,10 +85,12 @@ export async function POST(request: NextRequest) {
         privacyPolicyAccepted: Boolean(data.privacyPolicyAccepted),
         membershipTermsAccepted: Boolean(data.membershipTermsAccepted),
 
-        // Status defaults to PENDING via Prisma schema default
+        // Status must be set by the server to PENDING
+        status: 'PENDING',
       },
       select: {
         id: true,
+        status: true,
       },
     });
 
@@ -98,6 +100,7 @@ export async function POST(request: NextRequest) {
         success: true,
         message: 'Membership application submitted successfully.',
         applicationId: application.id,
+        status: application.status,
       },
       { status: 201 },
     );

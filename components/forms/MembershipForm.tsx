@@ -356,27 +356,35 @@ export default function MembershipForm() {
   if (submissionResult && !submissionResult.partialSuccess) {
     return (
       <div className="membership-form-wrap" data-animate="fade-up">
-        <div className="form-success" role="status" aria-live="polite">
-          <div className="form-success-icon" aria-hidden="true">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <div className="form-success" role="status" aria-live="polite" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
+          <div className="form-success-icon" aria-hidden="true" style={{ marginBottom: '1.5rem' }}>
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style={{ margin: '0 auto' }}>
               <circle cx="32" cy="32" r="30" stroke="#C9962E" strokeWidth="2" fill="rgba(201, 150, 46, 0.08)" />
               <path d="M20 32l8 8 16-16" stroke="#C9962E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <h3 className="form-success-title">Application Submitted</h3>
-          <p className="form-success-desc">
+          <h3 className="form-success-title" style={{ fontSize: '1.75rem', color: 'var(--clr-gold)', marginBottom: '1.5rem', fontFamily: 'var(--font-heading)' }}>
+            Application submitted successfully.
+          </h3>
+          <p className="form-success-desc" style={{ color: 'var(--clr-text-muted)', marginBottom: '2rem', maxWidth: '480px', margin: '0 auto 2rem' }}>
             Thank you for your interest in becoming a member of Kallipgur Coalition Aboriginal Corporation.
             Your application has been received and will be reviewed by our Membership Committee.
-            We will be in touch within 10 business days.
           </p>
-          <p className="form-success-ref">
-            Your application reference is: <strong>{submissionResult.applicationId}</strong>
-          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', background: 'var(--clr-surface)', border: '1px solid var(--clr-border)', padding: '1.5rem', borderRadius: '4px', maxWidth: '400px', margin: '0 auto 2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--clr-border)', paddingBottom: '0.75rem' }}>
+              <span style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem' }}>Application Reference:</span>
+              <strong style={{ fontFamily: 'monospace', fontSize: '1.1rem', color: 'var(--clr-gold-highlight)' }}>{submissionResult.applicationId}</strong>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem' }}>Status:</span>
+              <span style={{ padding: '0.25rem 0.75rem', borderRadius: '2px', background: 'rgba(201, 150, 46, 0.15)', color: 'var(--clr-gold-highlight)', fontWeight: '600', fontSize: '0.85rem', letterSpacing: '0.5px' }}>Pending</span>
+            </div>
+          </div>
           <button
             type="button"
             className="btn btn-outline"
             onClick={handleReturnToForm}
-            style={{ marginTop: '1.5rem' }}
+            style={{ marginTop: '1rem' }}
           >
             Submit Another Application
           </button>
