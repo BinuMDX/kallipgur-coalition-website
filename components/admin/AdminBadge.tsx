@@ -1,7 +1,7 @@
 import React from 'react';
 
 type AdminBadgeProps = {
-  variant?: 'gold' | 'success' | 'danger' | 'warning' | 'muted';
+  variant?: 'gold' | 'success' | 'danger' | 'warning' | 'info' | 'muted';
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;

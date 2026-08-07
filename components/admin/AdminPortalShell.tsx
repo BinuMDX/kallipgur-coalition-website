@@ -22,7 +22,7 @@ export default function AdminPortalShell({ children, user }: AdminPortalShellPro
   // Mapping paths to titles
   const getPageTitle = (path: string) => {
     if (path.includes('/dashboard')) return 'Dashboard';
-    if (path.includes('/applications')) return 'Applications';
+    if (path.includes('/membership')) return 'Membership Applications';
     return 'Dashboard';
   };
 
