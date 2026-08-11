@@ -181,6 +181,7 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
+    // ── 6. Handle unexpected errors ───────────
     console.error(
       '[API /api/membership/documents] Unexpected error:',
       error instanceof Error ? error.message : 'Unknown error',
@@ -192,6 +193,96 @@ export async function POST(request: NextRequest) {
         message: 'An unexpected error occurred during file upload.',
       },
       { status: 500 },
+    );
+  }
+}
+
+import { auth } from '@/lib/auth/auth';
+
+export async function GET(request: NextRequest) {
+  try {
+    // ── 1. Authentication Check ───────────────
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json(
+        { success: false, message: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // ── 2. Parse Query parameters ─────────────
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, message: 'Missing document ID parameter' },
+        { status: 400 }
+      );
+    }
+
+    // ── 3. Find Document in DB ────────────────
+    const doc = await prisma.membershipDocument.findUnique({
+      where: { id },
+    });
+
+    if (!doc) {
+      return NextResponse.json(
+        { success: false, message: 'Document not found' },
+        { status: 404 }
+      );
+    }
+
+    // ── 4. Resolve File Path ──────────────────
+    const targetDir = path.join(process.cwd(), UPLOADS_DIR);
+    const filePath = path.join(targetDir, doc.storedFileName);
+
+    // Verify path traversal
+    if (!filePath.startsWith(targetDir)) {
+      return NextResponse.json(
+        { success: false, message: 'Access denied' },
+        { status: 400 }
+      );
+    }
+
+    // Check if file exists on disk
+    try {
+      await fs.access(filePath);
+    } catch {
+      return NextResponse.json(
+        { success: false, message: 'File not found on storage disk' },
+        { status: 404 }
+      );
+    }
+
+    // ── 5. Serve File Content ─────────────────
+    const fileBuffer = await fs.readFile(filePath);
+    
+    const headers = new Headers();
+    headers.set('Content-Type', doc.mimeType || 'application/octet-stream');
+    
+    // Check if inline view (preview) or attachment (download) is requested
+    const isDownload = searchParams.get('download') === 'true';
+    const disposition = isDownload ? 'attachment' : 'inline';
+    
+    // Use encodeURIComponent for safe filename representation
+    headers.set(
+      'Content-Disposition', 
+      `${disposition}; filename*=UTF-8''${encodeURIComponent(doc.originalFileName)}`
+    );
+
+    return new NextResponse(fileBuffer, {
+      status: 200,
+      headers,
+    });
+  } catch (error) {
+    console.error(
+      '[API GET /api/membership/documents] Unexpected error:',
+      error instanceof Error ? error.message : 'Unknown error'
+    );
+    return NextResponse.json(
+      { success: false, message: 'An unexpected error occurred.' },
+      { status: 500 }
     );
   }
 }

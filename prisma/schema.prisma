@@ -101,6 +101,9 @@ model MembershipApplication {
   applicantEmailSent Boolean           @default(false)
   adminEmailSent     Boolean           @default(false)
 
+  notes              MembershipNote[]
+  auditLogs          MembershipAuditLog[]
+
   // ── Indexes ───────────────────────────────
   @@index([email])
   @@index([status])
@@ -123,4 +126,37 @@ model MembershipDocument {
 
   @@index([applicationId])
   @@index([documentType])
+}
+
+model MembershipNote {
+  id            String                @id @default(cuid())
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  applicationId String
+  application   MembershipApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  adminId       String
+  adminName     String
+  note          String
+
+  @@index([applicationId])
+}
+
+model MembershipAuditLog {
+  id            String                @id @default(cuid())
+  createdAt     DateTime              @default(now())
+
+  applicationId String
+  application   MembershipApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  adminId       String
+  adminName     String
+  action        String                // STATUS_CHANGE, NOTE_ADDED, DOCUMENT_UPLOADED, EMAIL_SENT, APPLICATION_SUBMITTED
+  previousStatus String?
+  newStatus      String?
+  reviewNote     String?
+
+  @@index([applicationId])
+  @@index([createdAt])
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import StatusBadge from './StatusBadge';
 import AdminButton from '../AdminButton';
 import { MEMBERSHIP_TYPES } from '@/lib/constants/membership';
@@ -89,20 +90,24 @@ export default function MembershipTable({ data }: MembershipTableProps) {
                 </td>
                 <td>
                   <div className="admin-membership__actions">
-                    <AdminButton variant="ghost" size="sm" aria-label={`View application ${truncateId(app.id)}`}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                        <circle cx="12" cy="12" r="3" />
-                      </svg>
-                      View
-                    </AdminButton>
-                    <AdminButton variant="ghost" size="sm" aria-label={`Review application ${truncateId(app.id)}`}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
-                      </svg>
-                      Review
-                    </AdminButton>
+                    <Link href={`/admin/membership/${app.id}`} passHref legacyBehavior>
+                      <AdminButton variant="ghost" size="sm" aria-label={`View application ${truncateId(app.id)}`}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        View
+                      </AdminButton>
+                    </Link>
+                    <Link href={`/admin/membership/${app.id}`} passHref legacyBehavior>
+                      <AdminButton variant="ghost" size="sm" aria-label={`Review application ${truncateId(app.id)}`}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                          <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                        Review
+                      </AdminButton>
+                    </Link>
                     <AdminButton
                       variant="ghost"
                       size="sm"
@@ -161,20 +166,24 @@ export default function MembershipTable({ data }: MembershipTableProps) {
             </div>
 
             <div className="admin-membership__card-actions">
-              <AdminButton variant="ghost" size="sm" aria-label={`View application ${truncateId(app.id)}`}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-                View
-              </AdminButton>
-              <AdminButton variant="ghost" size="sm" aria-label={`Review application ${truncateId(app.id)}`}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-                  <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
-                </svg>
-                Review
-              </AdminButton>
+              <Link href={`/admin/membership/${app.id}`} passHref legacyBehavior>
+                <AdminButton variant="ghost" size="sm" aria-label={`View application ${truncateId(app.id)}`}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                  View
+                </AdminButton>
+              </Link>
+              <Link href={`/admin/membership/${app.id}`} passHref legacyBehavior>
+                <AdminButton variant="ghost" size="sm" aria-label={`Review application ${truncateId(app.id)}`}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                  Review
+                </AdminButton>
+              </Link>
             </div>
           </div>
         ))}

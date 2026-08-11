@@ -306,3 +306,277 @@ Administrative Notification System`;
     text,
   });
 }
+
+/**
+ * Sends an email notifying the applicant that their application is now Under Review.
+ */
+export async function sendMembershipStatusUnderReview(
+  application: MembershipApplicationData,
+  reviewNote?: string | null
+): Promise<void> {
+  const safeFirstName = escapeHtml(application.firstName);
+  const safeId = escapeHtml(application.id);
+  const safeNote = reviewNote ? escapeHtml(reviewNote) : '';
+
+  const subject = 'Membership Application Update: Under Review – Kallipgur Coalition';
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333333; margin: 0; padding: 0; background-color: #f7f6f2; }
+    .container { max-width: 600px; margin: 30px auto; background: #ffffff; padding: 40px; border-radius: 8px; border-top: 5px solid #c5a880; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .header { text-align: center; margin-bottom: 30px; }
+    .logo-text { font-size: 24px; font-weight: bold; color: #1a1a1a; letter-spacing: 1px; }
+    .logo-sub { font-size: 10px; color: #888888; text-transform: uppercase; letter-spacing: 2px; display: block; margin-top: 4px; }
+    .ref-box { background-color: #fcfbfa; border: 1px solid #e8e6e0; border-radius: 6px; padding: 20px; margin: 25px 0; text-align: center; }
+    .ref-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #666666; margin-bottom: 6px; }
+    .ref-value { font-family: monospace; font-size: 18px; font-weight: bold; color: #c5a880; }
+    .status-value { font-size: 16px; font-weight: bold; color: #5B8EC9; margin-top: 4px; }
+    .note-box { background-color: #faf9f6; border-left: 3px solid #c5a880; padding: 15px; margin: 20px 0; font-style: italic; font-size: 14px; color: #555555; }
+    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eeeeee; font-size: 13px; color: #666666; text-align: center; }
+    .footer a { color: #c5a880; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-text">Kallipgur Coalition</div>
+      <span class="logo-sub">People of the same fire</span>
+    </div>
+    <h2>Membership Application Update</h2>
+    <p>Dear ${safeFirstName},</p>
+    <p>This is to inform you that your application for membership with the Kallipgur Coalition Aboriginal Corporation is currently under review by our administration board.</p>
+    
+    <div class="ref-box">
+      <div class="ref-label">Application Reference</div>
+      <div class="ref-value">${safeId}</div>
+      <div class="ref-label" style="margin-top: 15px;">Current Status</div>
+      <div class="status-value">UNDER REVIEW</div>
+    </div>
+    
+    ${safeNote ? `
+    <p><strong>Note from our Reviewers:</strong></p>
+    <div class="note-box">${safeNote}</div>
+    ` : ''}
+
+    <p>We are verifying your supporting documents and eligibility criteria. No further action is required from you at this stage. We will notify you immediately once the board reaches a final decision.</p>
+    
+    <p>If you have any questions, please feel free to reach out to our administration office.</p>
+    
+    <div class="footer">
+      <strong>Kallipgur Coalition Aboriginal Corporation</strong><br>
+      123 Country Road, Country Australia, WA 6000<br>
+      Email: <a href="mailto:info@kallipgurcoalition.org.au">info@kallipgurcoalition.org.au</a> | Phone: (08) 0000 0000<br>
+      Office Hours: Monday – Friday, 9:00am – 5:00pm
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const text = `Dear ${application.firstName},
+
+Your application for membership with the Kallipgur Coalition Aboriginal Corporation is currently under review.
+
+Application Reference: ${application.id}
+Current Status: UNDER REVIEW
+
+${reviewNote ? `Reviewer Note: ${reviewNote}\n` : ''}
+We are verifying your supporting documents. We will notify you immediately once the board reaches a final decision.
+
+--
+Kallipgur Coalition Aboriginal Corporation
+123 Country Road, Country Australia, WA 6000
+Email: info@kallipgurcoalition.org.au | Phone: (08) 0000 0000`;
+
+  await sendEmail({
+    to: application.email,
+    subject,
+    html,
+    text,
+  });
+}
+
+/**
+ * Sends an email notifying the applicant that their application is Approved.
+ */
+export async function sendMembershipStatusApproved(
+  application: MembershipApplicationData,
+  reviewNote?: string | null
+): Promise<void> {
+  const safeFirstName = escapeHtml(application.firstName);
+  const safeId = escapeHtml(application.id);
+  const safeNote = reviewNote ? escapeHtml(reviewNote) : '';
+
+  const subject = 'Membership Application Approved – Kallipgur Coalition';
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333333; margin: 0; padding: 0; background-color: #f7f6f2; }
+    .container { max-width: 600px; margin: 30px auto; background: #ffffff; padding: 40px; border-radius: 8px; border-top: 5px solid #4B8B5A; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .header { text-align: center; margin-bottom: 30px; }
+    .logo-text { font-size: 24px; font-weight: bold; color: #1a1a1a; letter-spacing: 1px; }
+    .logo-sub { font-size: 10px; color: #888888; text-transform: uppercase; letter-spacing: 2px; display: block; margin-top: 4px; }
+    .ref-box { background-color: #f4faf5; border: 1px solid #d3ebd6; border-radius: 6px; padding: 20px; margin: 25px 0; text-align: center; }
+    .ref-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #555555; margin-bottom: 6px; }
+    .ref-value { font-family: monospace; font-size: 18px; font-weight: bold; color: #4B8B5A; }
+    .status-value { font-size: 18px; font-weight: bold; color: #4B8B5A; margin-top: 4px; }
+    .note-box { background-color: #faf9f6; border-left: 3px solid #4B8B5A; padding: 15px; margin: 20px 0; font-style: italic; font-size: 14px; color: #555555; }
+    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eeeeee; font-size: 13px; color: #666666; text-align: center; }
+    .footer a { color: #c5a880; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-text">Kallipgur Coalition</div>
+      <span class="logo-sub">People of the same fire</span>
+    </div>
+    <h2 style="color: #4B8B5A;">Membership Application Approved</h2>
+    <p>Dear ${safeFirstName},</p>
+    <p>Congratulations! We are pleased to inform you that your application for membership has been formally approved by the Board of Directors of the Kallipgur Coalition Aboriginal Corporation.</p>
+    
+    <div class="ref-box">
+      <div class="ref-label">Application Reference</div>
+      <div class="ref-value">${safeId}</div>
+      <div class="ref-label" style="margin-top: 15px;">Status</div>
+      <div class="status-value">APPROVED</div>
+    </div>
+    
+    ${safeNote ? `
+    <p><strong>Message from the Board:</strong></p>
+    <div class="note-box">${safeNote}</div>
+    ` : ''}
+
+    <p>Welcome as a member of the Corporation. Your registration details have been entered into the Register of Members. You are now entitled to the rights and privileges of membership, in accordance with the Corporation's Rule Book.</p>
+    
+    <p>We look forward to your active participation in our community and programs. We will keep you updated regarding upcoming meetings, events, and opportunities.</p>
+    
+    <div class="footer">
+      <strong>Kallipgur Coalition Aboriginal Corporation</strong><br>
+      123 Country Road, Country Australia, WA 6000<br>
+      Email: <a href="mailto:info@kallipgurcoalition.org.au">info@kallipgurcoalition.org.au</a> | Phone: (08) 0000 0000<br>
+      Office Hours: Monday – Friday, 9:00am – 5:00pm
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const text = `Dear ${application.firstName},
+
+Congratulations! We are pleased to inform you that your application for membership has been formally approved by the Board of Directors.
+
+Application Reference: ${application.id}
+Status: APPROVED
+
+${reviewNote ? `Message from the Board: ${reviewNote}\n` : ''}
+Welcome as a member of the Corporation. Your registration details have been entered into the Register of Members.
+
+--
+Kallipgur Coalition Aboriginal Corporation
+123 Country Road, Country Australia, WA 6000
+Email: info@kallipgurcoalition.org.au | Phone: (08) 0000 0000`;
+
+  await sendEmail({
+    to: application.email,
+    subject,
+    html,
+    text,
+  });
+}
+
+/**
+ * Sends an email notifying the applicant that their application is Rejected.
+ */
+export async function sendMembershipStatusRejected(
+  application: MembershipApplicationData,
+  reviewNote?: string | null
+): Promise<void> {
+  const safeFirstName = escapeHtml(application.firstName);
+  const safeId = escapeHtml(application.id);
+  const safeNote = reviewNote ? escapeHtml(reviewNote) : '';
+
+  const subject = 'Membership Application Status Update – Kallipgur Coalition';
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333333; margin: 0; padding: 0; background-color: #f7f6f2; }
+    .container { max-width: 600px; margin: 30px auto; background: #ffffff; padding: 40px; border-radius: 8px; border-top: 5px solid #C44B3F; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .header { text-align: center; margin-bottom: 30px; }
+    .logo-text { font-size: 24px; font-weight: bold; color: #1a1a1a; letter-spacing: 1px; }
+    .logo-sub { font-size: 10px; color: #888888; text-transform: uppercase; letter-spacing: 2px; display: block; margin-top: 4px; }
+    .ref-box { background-color: #fbf5f4; border: 1px solid #ebd3d1; border-radius: 6px; padding: 20px; margin: 25px 0; text-align: center; }
+    .ref-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #555555; margin-bottom: 6px; }
+    .ref-value { font-family: monospace; font-size: 18px; font-weight: bold; color: #C44B3F; }
+    .status-value { font-size: 18px; font-weight: bold; color: #C44B3F; margin-top: 4px; }
+    .note-box { background-color: #faf9f6; border-left: 3px solid #C44B3F; padding: 15px; margin: 20px 0; font-style: italic; font-size: 14px; color: #555555; }
+    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eeeeee; font-size: 13px; color: #666666; text-align: center; }
+    .footer a { color: #c5a880; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-text">Kallipgur Coalition</div>
+      <span class="logo-sub">People of the same fire</span>
+    </div>
+    <h2>Membership Application Decision</h2>
+    <p>Dear ${safeFirstName},</p>
+    <p>Thank you for your interest in joining the Kallipgur Coalition Aboriginal Corporation. We appreciate you taking the time to apply for membership.</p>
+    <p>Your application was reviewed by the Board of Directors. We regret to inform you that your application for membership was not approved at this time.</p>
+    
+    <div class="ref-box">
+      <div class="ref-label">Application Reference</div>
+      <div class="ref-value">${safeId}</div>
+      <div class="ref-label" style="margin-top: 15px;">Status</div>
+      <div class="status-value">UNSUCCESSFUL</div>
+    </div>
+    
+    ${safeNote ? `
+    <p><strong>Note from the Board:</strong></p>
+    <div class="note-box">${safeNote}</div>
+    ` : ''}
+
+    <p>If you believe there has been an error or wish to appeal the decision, please contact the administration office within 28 days of this notice.</p>
+    
+    <div class="footer">
+      <strong>Kallipgur Coalition Aboriginal Corporation</strong><br>
+      123 Country Road, Country Australia, WA 6000<br>
+      Email: <a href="mailto:info@kallipgurcoalition.org.au">info@kallipgurcoalition.org.au</a> | Phone: (08) 0000 0000<br>
+      Office Hours: Monday – Friday, 9:00am – 5:00pm
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const text = `Dear ${application.firstName},
+
+Thank you for your interest in joining the Kallipgur Coalition Aboriginal Corporation.
+
+Your application was reviewed by the Board of Directors. We regret to inform you that your application for membership was not approved at this time.
+
+Application Reference: ${application.id}
+Status: UNSUCCESSFUL
+
+${reviewNote ? `Note from the Board: ${reviewNote}\n` : ''}
+If you believe there has been an error or wish to appeal the decision, please contact the administration office.
+
+--
+Kallipgur Coalition Aboriginal Corporation
+123 Country Road, Country Australia, WA 6000
+Email: info@kallipgurcoalition.org.au | Phone: (08) 0000 0000`;
+
+  await sendEmail({
+    to: application.email,
+    subject,
+    html,
+    text,
+  });
+}

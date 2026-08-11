@@ -9,6 +9,7 @@ type AdminCardProps = {
   interactive?: boolean;
   children?: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 };
 
 export default function AdminCard({
@@ -20,9 +21,10 @@ export default function AdminCard({
   interactive = false,
   children,
   className = '',
+  style,
 }: AdminCardProps) {
   return (
-    <div className={`admin-card${interactive ? ' admin-card--interactive' : ''} ${className}`}>
+    <div className={`admin-card${interactive ? ' admin-card--interactive' : ''} ${className}`} style={style}>
       {(icon || title) && (
         <div className="admin-card__header">
           {icon && <div className="admin-card__icon">{icon}</div>}
