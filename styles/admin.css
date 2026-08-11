@@ -1924,3 +1924,284 @@
     display: none;
   }
 }
+
+/* =============================================
+   ADMIN DASHBOARD ADDITIONAL STYLES — PHASE 6.3
+   ============================================= */
+.admin-dashboard__charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .admin-dashboard__charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Status overview widget */
+.status-overview {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+}
+
+.status-overview__title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--admin-text);
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+}
+
+.status-overview__bar-container {
+  display: flex;
+  height: 24px;
+  border-radius: var(--admin-radius-sm);
+  overflow: hidden;
+  background: var(--admin-bg);
+  margin-bottom: 2rem;
+  border: 1px solid var(--admin-border);
+}
+
+.status-overview__bar {
+  height: 100%;
+  transition: width var(--admin-dur) var(--admin-ease);
+}
+
+.status-overview__bar--empty {
+  background: var(--admin-border);
+}
+
+.status-overview__bar--pending {
+  background: var(--admin-warning);
+}
+
+.status-overview__bar--under-review {
+  background: var(--admin-info);
+}
+
+.status-overview__bar--approved {
+  background: var(--admin-success);
+}
+
+.status-overview__bar--rejected {
+  background: var(--admin-danger);
+}
+
+.status-overview__legend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.status-overview__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.status-overview__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-overview__dot--pending {
+  background: var(--admin-warning);
+}
+
+.status-overview__dot--under-review {
+  background: var(--admin-info);
+}
+
+.status-overview__dot--approved {
+  background: var(--admin-success);
+}
+
+.status-overview__dot--rejected {
+  background: var(--admin-danger);
+}
+
+.status-overview__label {
+  color: var(--admin-text-secondary);
+}
+
+.status-overview__value {
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--admin-text);
+}
+
+@media (max-width: 600px) {
+  .status-overview__legend {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Monthly Trend Chart */
+.trend-chart {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+}
+
+.trend-chart__title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--admin-text);
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+}
+
+.trend-chart__bars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex: 1;
+  height: 180px;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--admin-border);
+  gap: 0.75rem;
+}
+
+.trend-chart__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.trend-chart__bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: calc(100% - 24px);
+  position: relative;
+}
+
+.trend-chart__count {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--admin-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.trend-chart__bar {
+  width: 36px;
+  max-width: 100%;
+  background: linear-gradient(180deg, var(--admin-gold) 0%, var(--admin-accent) 100%);
+  border-radius: 4px 4px 0 0;
+  transition: all var(--admin-dur) var(--admin-ease);
+  cursor: pointer;
+}
+
+.trend-chart__bar:hover {
+  background: linear-gradient(180deg, var(--admin-gold-hover) 0%, var(--admin-gold) 100%);
+  transform: scaleY(1.02);
+  box-shadow: 0 0 12px rgba(201, 150, 46, 0.3);
+}
+
+.trend-chart__label {
+  font-size: 0.75rem;
+  color: var(--admin-text-muted);
+  margin-top: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.trend-chart__label-long {
+  display: inline;
+}
+
+.trend-chart__label-short {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .trend-chart__label-long {
+    display: none;
+  }
+  .trend-chart__label-short {
+    display: inline;
+  }
+  .trend-chart__bar {
+    width: 24px;
+  }
+}
+
+/* Custom icon colors for statistic cards */
+.admin-card--success .admin-card__icon {
+  background: var(--admin-success-subtle);
+  color: var(--admin-success);
+}
+
+.admin-card--danger .admin-card__icon {
+  background: var(--admin-danger-subtle);
+  color: var(--admin-danger);
+}
+
+.admin-card--info .admin-card__icon {
+  background: var(--admin-info-subtle);
+  color: var(--admin-info);
+}
+
+.admin-card--warning .admin-card__icon {
+  background: var(--admin-warning-subtle);
+  color: var(--admin-warning);
+}
+
+/* Recent applications section */
+.recent-applications {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.recent-applications__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.recent-applications__title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--admin-text);
+  margin: 0;
+}
+
+.recent-applications__link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--admin-gold);
+  text-decoration: none;
+  transition: color var(--admin-dur);
+}
+
+.recent-applications__link:hover {
+  color: var(--admin-gold-hover);
+}
+

@@ -33,6 +33,17 @@ export default function MembershipPageClient() {
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
 
+  // Initialize status from URL query param if present
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlStatus = params.get('status');
+      if (urlStatus) {
+        setStatus(urlStatus);
+      }
+    }
+  }, []);
+
   // Debounce ref
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [debouncedSearch, setDebouncedSearch] = useState('');
