@@ -7,3 +7,4 @@ out/
 .env.production
 dist/
 uploads/
+prisma/seed.js
