@@ -57,31 +57,6 @@ export default function GalleryPage() {
           <Gallery />
         </Container>
       </section>
-
-      {/* ===== SUBMIT PHOTO CTA ===== */}
-      <section className="section" style={{ background: 'var(--clr-bg-secondary)' }} aria-labelledby="gallery-submit-heading">
-        <Container>
-          <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }} data-animate="fade-up">
-            <SectionHeading
-              id="gallery-submit-heading"
-              eyebrow="Share Your Story"
-              heading={
-                <>
-                  Have a photo to<br />
-                  <em>share with community?</em>
-                </>
-              }
-            />
-            <p className="section-intro" style={{ margin: '0 auto 2.5rem' }}>
-              We love to showcase community-contributed images. Send us your photos from events, Country, or everyday community life and we&apos;ll feature them here.
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Button href="/contact" size="lg">Submit a Photo</Button>
-              <Button href="/news" variant="outline" size="lg">Latest News</Button>
-            </div>
-          </div>
-        </Container>
-      </section>
     </>
   );
 }
