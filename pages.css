@@ -1325,3 +1325,159 @@
 .mobile-link--active {
   color: var(--clr-gold) !important;
 }
+
+/* ===== CONTACT FORM ENHANCEMENTS (Phase 9.1) ===== */
+
+/* Error state on form controls */
+.form-control--error {
+  border-color: var(--clr-accent) !important;
+}
+
+.form-control--error:focus {
+  box-shadow: 0 0 0 3px rgba(168, 67, 30, 0.18);
+}
+
+/* Inline field-level error message */
+.contact-field-error {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: #e87d5c;
+  line-height: 1.4;
+}
+
+/* Message field footer (char count + error shared row) */
+.contact-message-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.35rem;
+  min-height: 1.1rem;
+}
+
+/* Character counter */
+.contact-char-count {
+  font-size: 0.72rem;
+  color: var(--clr-text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Form-level error alert banner */
+.contact-form-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(168, 67, 30, 0.45);
+  background: rgba(168, 67, 30, 0.08);
+  color: #e87d5c;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* Submit button spinner */
+.contact-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: contact-spin 0.65s linear infinite;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+@keyframes contact-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success panel */
+.contact-success-panel {
+  background: var(--clr-surface);
+  border: 1px solid rgba(201, 150, 46, 0.4);
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-success-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--clr-gold), transparent);
+}
+
+.contact-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(201, 150, 46, 0.1);
+  border: 1px solid rgba(201, 150, 46, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contact-success-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 400;
+  color: var(--clr-sand);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.contact-success-message {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--clr-text-muted);
+  max-width: 52ch;
+  margin: 0;
+}
+
+.contact-success-sub {
+  font-size: 0.88rem;
+  color: var(--clr-text-dim);
+  font-style: italic;
+  margin: 0;
+}
+
+.contact-success-btn {
+  margin-top: 0.5rem;
+}
+
+/* Outline button variant for success reset action */
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--clr-border-hover);
+  color: var(--clr-sand);
+  padding: 0.7rem 1.5rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), color var(--dur-fast), background var(--dur-fast);
+  font-family: var(--font-body);
+}
+
+.btn-outline:hover {
+  border-color: var(--clr-gold);
+  color: var(--clr-gold);
+  background: rgba(201, 150, 46, 0.06);
+}
+
+.btn-outline:focus-visible {
+  outline: 2px solid var(--clr-gold);
+  outline-offset: 2px;
+}
+

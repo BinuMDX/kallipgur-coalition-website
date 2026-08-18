@@ -31,6 +31,14 @@ enum DocumentType {
   PROFILE_PHOTO
 }
 
+enum EnquiryStatus {
+  NEW
+  READ
+  IN_PROGRESS
+  RESOLVED
+  ARCHIVED
+}
+
 // ──────────────────────────────────────────────
 // Models
 // ──────────────────────────────────────────────
@@ -159,4 +167,26 @@ model MembershipAuditLog {
 
   @@index([applicationId])
   @@index([createdAt])
+}
+
+// ──────────────────────────────────────────────
+// Contact Enquiries
+// ──────────────────────────────────────────────
+
+model ContactEnquiry {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  fullName  String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+
+  status    EnquiryStatus @default(NEW)
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([email])
 }
