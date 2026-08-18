@@ -90,48 +90,8 @@ export default function DonatePage() {
         </Container>
       </section>
 
-      {/* ===== TRANSPARENCY ===== */}
-      <section className="section" style={{ background: 'var(--clr-bg-secondary)' }} aria-labelledby="transparency-heading">
-        <Container>
-          <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }} data-animate="fade-up">
-            <SectionHeading
-              id="transparency-heading"
-              eyebrow="Transparency"
-              heading={
-                <>
-                  We are<br />
-                  <em>accountable to community.</em>
-                </>
-              }
-            />
-            <p className="section-intro" style={{ margin: '0 auto 1.5rem' }}>
-              Kallipgur Coalition Aboriginal Corporation is a registered charity. Donations over $2 are tax-deductible. Our annual report is publicly available and all financials are independently audited.
-            </p>
-            <p style={{ fontSize: '0.85rem', color: 'var(--clr-text-dim)', marginBottom: '2.5rem' }}>
-              ICN 11895 · Registered 22 June 2026 under the CATSI Act 2006
-            </p>
-            <a
-              href="#"
-              className="btn btn-outline"
-              onClick={(e) => e.preventDefault()}
-            >
-              Download Annual Report
-            </a>
-          </div>
-        </Container>
-      </section>
 
-      {/* ===== QUOTE ===== */}
-      <section className="quote-section" aria-label="Elder reflection">
-        <Container>
-          <Quote
-            animate="fade-up"
-            quote="When you give to our community, you are not giving charity — you are investing in a future that belongs to all of us. You are part of the story."
-            attributionName="Uncle David Kallipgur"
-            attributionTitle="Deputy Chair, Kallipgur Coalition"
-          />
-        </Container>
-      </section>
+ 
     </>
   );
 }
