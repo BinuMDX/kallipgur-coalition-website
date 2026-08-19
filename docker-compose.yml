@@ -18,6 +18,41 @@ services:
       retries: 5
       start_period: 30s
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kallipgur-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      AUTH_SECRET: ${AUTH_SECRET}
+      AUTH_TRUST_HOST: "true"
+      APP_URL: ${APP_URL}
+      # relative to the server's cwd (/app); route code does path.join(process.cwd(), UPLOADS_DIR)
+      UPLOADS_DIR: uploads
+      MAX_UPLOAD_SIZE_MB: ${MAX_UPLOAD_SIZE_MB:-10}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-mailpit}
+      MICROSOFT_TENANT_ID: ${MICROSOFT_TENANT_ID}
+      MICROSOFT_CLIENT_ID: ${MICROSOFT_CLIENT_ID}
+      MICROSOFT_CLIENT_SECRET: ${MICROSOFT_CLIENT_SECRET}
+      MICROSOFT_SENDER_EMAIL: ${MICROSOFT_SENDER_EMAIL}
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      MEMBERSHIP_NOTIFICATION_EMAIL: ${MEMBERSHIP_NOTIFICATION_EMAIL}
+    volumes:
+      - uploads:/app/uploads
+
 volumes:
   pgdata:
   uploads:
