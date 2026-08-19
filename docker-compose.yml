@@ -53,6 +53,20 @@ services:
     volumes:
       - uploads:/app/uploads
 
+  migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrator
+    container_name: kallipgur-migrator
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+
 volumes:
   pgdata:
   uploads:

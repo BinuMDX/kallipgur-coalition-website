@@ -23,6 +23,14 @@ ENV DATABASE_URL="postgresql://user:password@localhost:5432/db?schema=public"
 RUN npx prisma generate
 RUN npm run build
 
+# ── Migrations ────────────────────────────────────────
+FROM base AS migrator
+COPY --from=deps /app/node_modules ./node_modules
+COPY prisma ./prisma
+COPY prisma.config.ts package.json ./
+ENV DATABASE_URL="postgresql://user:password@localhost:5432/db?schema=public"
+CMD ["./node_modules/.bin/prisma", "migrate", "deploy"]
+
 # ── Runtime ───────────────────────────────────────────
 FROM base AS runner
 ENV NODE_ENV=production
